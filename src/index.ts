@@ -1,7 +1,18 @@
-import { Elysia } from "elysia";
+import { Elysia, ws } from "elysia";
+import { html } from "@elysiajs/html";
+import { staticPlugin } from "@elysiajs/static";
+import { hotReload } from "plugins/hot-reload";
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+import { routes } from "routes";
+
+const app = new Elysia()
+  .use(ws())
+  .use(staticPlugin())
+  .use(html())
+  .use(hotReload())
+  .use(routes)
+  .listen(3000);
 
 console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
+  `🦊 Server is running at ${app.server?.hostname}:${app.server?.port}`
 );
